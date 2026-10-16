@@ -3,7 +3,8 @@
 import os
 import logging
 import uvicorn
-
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 from mcp.server.fastmcp import FastMCP
 from mcp.server.transport_security import TransportSecuritySettings
 from tools.kg_query import register_kg_query_tool
@@ -36,6 +37,9 @@ mcp = FastMCP(
     ),
 )
 
+@mcp.custom_route("/health", methods=["GET"])
+async def health(request: Request):
+    return JSONResponse({"status": "ok"})
 
 # Register Knowledge Graph query tool.
 register_kg_query_tool(mcp)
@@ -56,10 +60,7 @@ if __name__ == "__main__":
         log_level="info",
     )
 
-from starlette.requests import Request
-from starlette.responses import JSONResponse
 
-@mcp.custom_route("/health", methods=["GET"])
-async def health(request: Request):
-    return JSONResponse({"status": "ok"})
+
+
  
