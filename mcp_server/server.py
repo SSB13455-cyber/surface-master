@@ -14,7 +14,28 @@ from tools.status_code_lookup import (
 logging.basicConfig(level=logging.INFO)
 
 # Create one MCP server for both tools.
-mcp = FastMCP("Surface Sterling OMS")
+# mcp = FastMCP("Surface Sterling OMS")
+# Hostname Render assigns to your service
+ALLOWED_HOST = os.getenv("MCP_ALLOWED_HOST", "surface-mcp-server.onrender.com")
+
+mcp = FastMCP(
+    "Surface Sterling OMS",
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=[
+            ALLOWED_HOST,
+            f"{ALLOWED_HOST}:*",
+            "localhost:*",
+            "127.0.0.1:*",
+        ],
+        allowed_origins=[
+            f"https://{ALLOWED_HOST}",
+            "http://localhost:*",
+            "http://127.0.0.1:*",
+        ],
+    ),
+)
+
 
 # Register Knowledge Graph query tool.
 register_kg_query_tool(mcp)
