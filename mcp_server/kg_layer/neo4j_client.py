@@ -25,7 +25,8 @@ class Neo4JClient:
         """
         # Load env from frontend/.env
         env_path = Path(__file__).parent.parent.parent / "frontend" / ".env"
-        load_dotenv(dotenv_path=env_path)
+        if env_path.is_file():
+            load_dotenv(dotenv_path=env_path)
 
         self.uri = uri or os.getenv("NEO4J_URI")
         self.user = user or os.getenv("NEO4J_USERNAME")
