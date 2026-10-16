@@ -5,7 +5,7 @@ import logging
 import uvicorn
 
 from mcp.server.fastmcp import FastMCP
-
+from mcp.server.transport_security import TransportSecuritySettings
 from tools.kg_query import register_kg_query_tool
 from tools.status_code_lookup import (
     register_status_code_lookup_tool,
