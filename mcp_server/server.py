@@ -23,7 +23,16 @@ register_kg_query_tool(mcp)
 register_status_code_lookup_tool(mcp)
 
 # Expose the Streamable HTTP MCP application.
-app = mcp.streamable_http_app()
+from mcp.server.transport_security import TransportSecuritySettings
+
+app = mcp.streamable_http_app(
+    transport_security=TransportSecuritySettings(
+        allowed_hosts=[
+            "surface-mcp-server.onrender.com",
+            "surface-mcp-server.onrender.com:*",
+        ]
+    )
+)
 
 
 if __name__ == "__main__":
