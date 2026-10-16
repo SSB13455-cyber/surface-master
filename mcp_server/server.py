@@ -55,4 +55,11 @@ if __name__ == "__main__":
         port=int(os.getenv("MCP_PORT", "8001")),
         log_level="info",
     )
+
+from starlette.requests import Request
+from starlette.responses import JSONResponse
+
+@mcp.custom_route("/health", methods=["GET"])
+async def health(request: Request):
+    return JSONResponse({"status": "ok"})
  
